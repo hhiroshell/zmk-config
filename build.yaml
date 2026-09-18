@@ -2,5 +2,5 @@
 # Add future keyboards as additional `- board: ... / shield: ...` entries.
 ---
 include:
-  - board: xiao_ble/nrf52840/zmk
+  - board: seeeduino_xiao_ble
     shield: single_key

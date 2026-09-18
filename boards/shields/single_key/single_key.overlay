@@ -1,12 +1,12 @@
 /*
- * Single-key PoC shield for Seeed XIAO nRF52840 (board: xiao_ble/nrf52840/zmk).
+ * Single-key PoC shield for Seeed XIAO nRF52840 (board: seeeduino_xiao_ble).
  *
  * Wiring:
  *   D0 (P0.02) -- switch -- GND
  *
  * `&xiao_d 0` refers to the pin labeled "D0" on the XIAO pinout, via the
- * `seeed_xiao` interconnect that the xiao_ble board exposes. This avoids
- * hardcoding the underlying `&gpio0 2` reference by hand.
+ * `seeed_xiao` interconnect that the seeeduino_xiao_ble board exposes. This
+ * avoids hardcoding the underlying `&gpio0 2` reference by hand.
  *
  * No external pull-up resistor is used, so GPIO_PULL_UP enables the SoC's
  * internal pull-up. The switch pulls the pin to GND when pressed, so the

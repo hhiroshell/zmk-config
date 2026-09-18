@@ -9,7 +9,9 @@ Minimal single-switch wireless keyboard PoC on a Seeed XIAO nRF52840.
 
 ### Hardware
 
-- MCU: Seeed XIAO nRF52840 (ZMK board: `xiao_ble/nrf52840/zmk`)
+- MCU: Seeed XIAO nRF52840 (ZMK board: `seeeduino_xiao_ble`, ZMK's stable
+  `v0.3` branch — note this differs from the `xiao_ble/nrf52840/zmk` name
+  used on ZMK's unstable `main` branch)
 - Switch: 1x momentary, normally-open
 - Wiring (no soldering, no breadboard — SMD IC test hook grabbers clamped
   directly onto the XIAO's castellated pads):
@@ -22,8 +24,8 @@ Minimal single-switch wireless keyboard PoC on a Seeed XIAO nRF52840.
 ### Build
 
 Pushing to this repo triggers GitHub Actions, which builds
-`single_key-xiao_ble-nrf52840-zmk.uf2` (see the `build.yaml` matrix). Download
-it from the workflow run's "Artifacts" section.
+`single_key-seeeduino_xiao_ble-zmk.uf2` (see the `build.yaml` matrix).
+Download it from the workflow run's "Artifacts" section.
 
 ### Flashing
 
