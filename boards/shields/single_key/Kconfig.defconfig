@@ -1,0 +1,6 @@
+if SHIELD_SINGLE_KEY
+
+config ZMK_KEYBOARD_NAME
+    default "Single Key"
+
+endif # SHIELD_SINGLE_KEY

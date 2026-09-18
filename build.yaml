@@ -1,0 +1,6 @@
+# This file generates the GitHub Actions build matrix.
+# Add future keyboards as additional `- board: ... / shield: ...` entries.
+---
+include:
+  - board: xiao_ble/nrf52840/zmk
+    shield: single_key

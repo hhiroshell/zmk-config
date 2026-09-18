@@ -1,0 +1,47 @@
+/*
+ * Single-key PoC shield for Seeed XIAO nRF52840 (board: xiao_ble/nrf52840/zmk).
+ *
+ * Wiring:
+ *   D0 (P0.02) -- switch -- GND
+ *
+ * `&xiao_d 0` refers to the pin labeled "D0" on the XIAO pinout, via the
+ * `seeed_xiao` interconnect that the xiao_ble board exposes. This avoids
+ * hardcoding the underlying `&gpio0 2` reference by hand.
+ *
+ * No external pull-up resistor is used, so GPIO_PULL_UP enables the SoC's
+ * internal pull-up. The switch pulls the pin to GND when pressed, so the
+ * pin reads low on press: GPIO_ACTIVE_LOW.
+ */
+
+#include <dt-bindings/zmk/matrix_transform.h>
+
+/ {
+    chosen {
+        zmk,kscan = &kscan0;
+        zmk,matrix-transform = &default_transform;
+    };
+
+    /*
+     * A single momentary switch needs no row/column matrix, so
+     * zmk,kscan-gpio-direct is used with exactly one input pin.
+     */
+    kscan0: kscan_0 {
+        compatible = "zmk,kscan-gpio-direct";
+        wakeup-source;
+        input-gpios = <&xiao_d 0 (GPIO_ACTIVE_LOW | GPIO_PULL_UP)>;
+    };
+
+    /*
+     * A 1x1 matrix transform is technically optional for a single key
+     * (chosen zmk,kscan alone would work), but it is kept here so the
+     * key position numbering follows the same documented pattern as
+     * multi-key shields, and so this shield is a drop-in template for
+     * adding more keys later.
+     */
+    default_transform: keymap_transform_0 {
+        compatible = "zmk,matrix-transform";
+        columns = <1>;
+        rows = <1>;
+        map = <RC(0,0)>;
+    };
+};
