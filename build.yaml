@@ -4,3 +4,11 @@
 include:
   - board: seeeduino_xiao_ble
     shield: single_key
+  - board: seeeduino_xiao_ble
+    shield: optokbd_left
+  - board: seeeduino_xiao_ble
+    shield: optokbd_right
+  # Flash to clear stored BLE bonds/settings (e.g. when the halves stop
+  # pairing with each other), then flash the regular firmware again.
+  - board: seeeduino_xiao_ble
+    shield: settings_reset
