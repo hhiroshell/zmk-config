@@ -1,0 +1,142 @@
+/*
+ * Ported from the QMK keymap of bias (keyboards/bias/keymaps/default/keymap.c).
+ *
+ * bias has 6 columns per half; optokbd has one more, the innermost column
+ * (left C6 / right C6). The bias keys sit on the outer 6 columns. The left
+ * inner column has mouse buttons (middle, left, right click from the top),
+ * and the right inner column is left unassigned (&none on BASE). The 4 thumb
+ * keys per half map one to one.
+ */
+
+#include <behaviors.dtsi>
+#include <dt-bindings/zmk/bt.h>
+#include <dt-bindings/zmk/keys.h>
+#include <dt-bindings/zmk/pointing.h>
+
+#define BASE  0
+#define LOWER 1
+#define RAISE 2
+#define FUNC  3
+#define ADMIN 4
+
+#define LCTL_ESC   &mt LCTRL ESC
+#define RCTL_QUOT  &mt RCTRL SQT
+#define LOWER_LNG2 &lt_lang LOWER LANG2
+#define RAISE_LNG1 &lt_lang RAISE LANG1
+
+/*
+ * LCTL_T(KC_ESC) / RCTL_T(KC_QUOT), with a tapping term of 150 ms (bias used
+ * 120). Unlike QMK's default decision mode, pressing another key while it is
+ * held decides "hold" right away, however short the press (like QMK's
+ * HOLD_ON_OTHER_KEY_PRESS): hold-preferred in ZMK.
+ */
+&mt {
+    flavor = "hold-preferred";
+    tapping-term-ms = <150>;
+};
+
+/ {
+    behaviors {
+        /*
+         * MO(_LOWER) / MO(_RAISE) of bias: momentary layer that also taps a
+         * key (LANG2 / LANG1) on release if no other key was pressed while it
+         * was held, however long it was held. hold-preferred makes any other
+         * key press decide "hold", and retro-tap makes a release with no other
+         * key press "tap" even after the tapping term.
+         */
+        lt_lang: layer_tap_lang {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "hold-preferred";
+            tapping-term-ms = <200>;
+            retro-tap;
+            bindings = <&mo>, <&kp>;
+        };
+    };
+
+    keymap {
+        compatible = "zmk,keymap";
+
+        base_layer {
+            display-name = "Base";
+            bindings = <
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &kp TAB      &kp Q        &kp W        &kp E        &kp R        &kp T        &mkp MCLK      &none        &kp Y        &kp U        &kp I        &kp O        &kp P        &kp BSPC
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              LCTL_ESC     &kp A        &kp S        &kp D        &kp F        &kp G        &mkp LCLK      &none        &kp H        &kp J        &kp K        &kp L        &kp SEMI     RCTL_QUOT
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &kp LSHFT    &kp Z        &kp X        &kp C        &kp V        &kp B        &mkp RCLK      &none        &kp N        &kp M        &kp COMMA    &kp DOT      &kp FSLH     &kp RSHFT
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+                                                     &kp LGUI     &kp LALT     LOWER_LNG2   &kp SPACE      &kp RET      RAISE_LNG1   &kp RALT     &kp RGUI
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+            >;
+        };
+
+        lower_layer {
+            display-name = "Lower";
+            bindings = <
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &none        &kp EXCL     &kp AT       &kp HASH     &kp DLLR     &kp PRCNT    &trans         &trans       &kp CARET    &kp AMPS     &kp STAR     &kp LPAR     &kp RPAR     &kp DEL
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &trans       &none        &none        &none        &none        &none        &trans         &trans       &kp GRAVE    &kp MINUS    &kp EQUAL    &kp LBKT     &kp RBKT     &kp BSLH
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &trans       &none        &none        &none        &none        &none        &trans         &trans       &kp TILDE    &kp UNDER    &kp PLUS     &kp LBRC     &kp RBRC     &kp PIPE
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+                                                     &trans       &trans       &trans       &trans         &trans       &mo FUNC     &trans       &trans
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+            >;
+        };
+
+        raise_layer {
+            display-name = "Raise";
+            bindings = <
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &none        &kp N1       &kp N2       &kp N3       &kp N4       &kp N5       &trans         &trans       &kp N6       &kp N7       &kp N8       &kp N9       &kp N0       &kp DEL
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &trans       &none        &none        &none        &none        &none        &trans         &trans       &kp LEFT     &kp DOWN     &kp UP       &kp RIGHT    &none        &kp RCTRL
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &trans       &none        &none        &none        &none        &none        &trans         &trans       &kp HOME     &kp PG_DN    &kp PG_UP    &kp END      &none        &kp RSHFT
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+                                                     &trans       &trans       &mo FUNC     &trans         &trans       &trans       &trans       &trans
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+            >;
+        };
+
+        func_layer {
+            display-name = "Func";
+            bindings = <
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &none        &kp F1       &kp F2       &kp F3       &kp F4       &kp F5       &none          &none        &kp F6       &kp F7       &kp F8       &kp F9       &kp F10      &none
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &tog ADMIN   &kp F11      &kp F12      &kp F13      &kp F14      &kp F15      &none          &none        &none        &kp C_VOL_DN &kp C_VOL_UP &none        &none        &none
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &none        &none        &none        &kp PSCRN    &none        &none        &none          &none        &none        &kp K_MUTE   &none        &none        &none        &none
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+                                                     &none        &none        &none        &none          &none        &none        &none        &none
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+            >;
+        };
+
+        /*
+         * Besides bias's QK_BOOT and TG(_ADMIN), this layer has keys that a
+         * wireless split keyboard needs: &bootloader for the right half too
+         * (it acts only on the half whose key is pressed), BLE profile
+         * selection (BT_SEL 0-4), and clearing the current profile's pairing
+         * (BT_CLR).
+         */
+        admin_layer {
+            display-name = "Admin";
+            bindings = <
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &bootloader  &bt BT_SEL 0 &bt BT_SEL 1 &bt BT_SEL 2 &bt BT_SEL 3 &bt BT_SEL 4 &none          &none        &none        &none        &none        &none        &none        &bootloader
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &tog ADMIN   &none        &none        &none        &none        &none        &none          &none        &none        &none        &none        &none        &none        &none
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+              &none        &bt BT_CLR   &none        &none        &none        &none        &none          &none        &none        &none        &none        &none        &none        &none
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+                                                     &none        &none        &none        &none          &none        &none        &none        &none
+            //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
+            >;
+        };
+    };
+};
