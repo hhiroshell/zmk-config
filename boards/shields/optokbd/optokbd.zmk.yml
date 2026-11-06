@@ -1,0 +1,11 @@
+file_format: "1"
+id: optokbd
+name: optokbd
+type: shield
+url: https://github.com/hhiroshell/optokbd
+requires: [seeed_xiao]
+features:
+  - keys
+siblings:
+  - optokbd_left
+  - optokbd_right

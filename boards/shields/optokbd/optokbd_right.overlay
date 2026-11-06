@@ -1,0 +1,34 @@
+/*
+ * XIAO pins of the right half, from the controller board's J1 (pins 1-11 =
+ * D6 D5 D4 D3 D2 D1 D0 D10 D9 D8 D7) and the right matrix board's J1,
+ * assuming the cable connects matrix pin k to controller pin 12 - k. If the
+ * cable turns out to connect pin k to pin k instead, these pins must be
+ * redone.
+ *
+ * The columns are listed from the inner one (C6) to the outer one (C0), so
+ * that with col-offset they become transform columns 7-13 from left to right.
+ */
+
+#include "optokbd.dtsi"
+
+&matrix_transform0 {
+    col-offset = <7>;
+};
+
+&kscan0 {
+    row-gpios
+        = <&xiao_d 1 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // R0
+        , <&xiao_d 2 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // R1
+        , <&xiao_d 3 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // R2
+        , <&xiao_d 4 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>  // R3
+        ;
+    col-gpios
+        = <&xiao_d 5 GPIO_ACTIVE_HIGH>   // C6 (inner)
+        , <&xiao_d 6 GPIO_ACTIVE_HIGH>   // C5
+        , <&xiao_d 0 GPIO_ACTIVE_HIGH>   // C4
+        , <&xiao_d 7 GPIO_ACTIVE_HIGH>   // C3
+        , <&xiao_d 8 GPIO_ACTIVE_HIGH>   // C2
+        , <&xiao_d 9 GPIO_ACTIVE_HIGH>   // C1
+        , <&xiao_d 10 GPIO_ACTIVE_HIGH>  // C0 (outer)
+        ;
+};
