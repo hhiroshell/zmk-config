@@ -70,8 +70,9 @@ regular firmware again.
 
 `boards/shields/optokbd/optokbd.keymap`, ported from the QMK keymap of bias.
 bias has 6 columns per half, so its keys sit on the outer 6 columns. The
-innermost column of the left half has mouse buttons (middle, left and right
-click from the top); that of the right half is unassigned (`&none`).
+innermost column of the left half has mouse buttons (from the top: back,
+i.e. mouse button 4, left click and right click); that of the right half is
+unassigned (`&none`).
 
 - `LOWER` / `RAISE` thumb keys: momentary layers that also tap `LANG2` /
   `LANG1` when released without pressing any other key.
