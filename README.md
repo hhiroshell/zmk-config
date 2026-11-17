@@ -62,6 +62,14 @@ GitHub Actions builds `optokbd_left-seeeduino_xiao_ble-zmk.uf2` and
 `optokbd_right-seeeduino_xiao_ble-zmk.uf2`. Flash each one to its half the
 same way as above (double-press reset, drag and drop the `.uf2`).
 
+Each half goes into deep sleep after 15 minutes without a key press (not while
+on USB power); the timeout is `CONFIG_ZMK_IDLE_SLEEP_TIMEOUT` in
+`optokbd_left.conf` / `optokbd_right.conf`. Press a key on a half to wake it
+up; that key press is not sent. A sleeping left half is woken up only by its
+own keys, not by the right half's. The right half sleeps on its own count, so
+after typing only on the left half for a while, the first right-half key
+wakes it up and it takes a moment to reconnect.
+
 If the halves stop connecting to each other, flash
 `settings_reset-seeeduino_xiao_ble-zmk.uf2` to both halves, then flash the
 regular firmware again.
