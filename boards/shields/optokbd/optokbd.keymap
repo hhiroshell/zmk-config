@@ -23,6 +23,7 @@
 #define RCTL_QUOT  &mt RCTRL SQT
 #define LOWER_LNG2 &lt_lang LOWER LANG2
 #define RAISE_LNG1 &lt_lang RAISE LANG1
+#define ADMIN_HOLD &hold_tog ADMIN 0
 
 /*
  * LCTL_T(KC_ESC) / RCTL_T(KC_QUOT), with a tapping term of 150 ms (bias used
@@ -52,6 +53,19 @@
             retro-tap;
             bindings = <&mo>, <&kp>;
         };
+
+        /*
+         * Toggles a layer only when held for 1 s; a shorter press does nothing.
+         * tap-preferred decides "hold" only when the tapping term expires, so
+         * pressing other keys meanwhile does not shorten it.
+         */
+        hold_tog: hold_toggle_layer {
+            compatible = "zmk,behavior-hold-tap";
+            #binding-cells = <2>;
+            flavor = "tap-preferred";
+            tapping-term-ms = <1000>;
+            bindings = <&tog>, <&none>;
+        };
     };
 
     keymap {
@@ -76,7 +90,7 @@
             display-name = "Lower";
             bindings = <
             //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
-              &none        &kp EXCL     &kp AT       &kp HASH     &kp DLLR     &kp PRCNT    &trans         &trans       &kp CARET    &kp AMPS     &kp STAR     &kp LPAR     &kp RPAR     &kp DEL
+              ADMIN_HOLD   &kp EXCL     &kp AT       &kp HASH     &kp DLLR     &kp PRCNT    &trans         &trans       &kp CARET    &kp AMPS     &kp STAR     &kp LPAR     &kp RPAR     &kp DEL
             //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------
               &trans       &none        &none        &none        &none        &none        &trans         &trans       &kp GRAVE    &kp MINUS    &kp EQUAL    &kp LBKT     &kp RBKT     &kp BSLH
             //----------------------------------------------------------------------------------------| |----------------------------------------------------------------------------------------

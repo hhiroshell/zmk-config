@@ -81,3 +81,7 @@ unassigned (`&none`).
   bias's bootloader key (top-left), `ADMIN` has a bootloader key for the right
   half (top-right), BLE profile selection 0-4 (left top row) and clearing the
   current profile's pairing (left bottom row, `Z` position).
+- `LOWER` layer, left `Tab` position: toggles the `ADMIN` layer when held for
+  1 second, so `ADMIN` can be entered with the left hand alone (for example
+  when the right half is not connected). Leave `ADMIN` with the left
+  `Ctrl/Esc` position.
